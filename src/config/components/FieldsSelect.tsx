@@ -1,7 +1,7 @@
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { getLayOut } from '../../modules'
-import { thisAppId } from '../config'
+import { AppIdContext } from '../config'
 
 const FieldsSelect = ({
   setFunction,
@@ -13,7 +13,7 @@ const FieldsSelect = ({
   appId: number | string
 }) => {
   const [fields, setFields] = useState<Record<string, any>[]>([])
-  const thisId = useContext(thisAppId)
+  const thisId = useContext(AppIdContext)
 
   useEffect(() => {
     const awaitFields = async () => {

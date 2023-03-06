@@ -2,11 +2,11 @@ import { App } from '@kintone/rest-api-client/lib/client/types'
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { getApps } from '../../modules'
-import { thisAppId } from '../config'
+import { AppIdContext } from '../config'
 
 const AppsSelect = ({ setFunction, value }: { setFunction: Function; value: number | string }) => {
   const [apps, setApps] = useState<App[]>([])
-  const thisId = useContext(thisAppId)
+  const thisId = useContext(AppIdContext)
 
   useEffect(() => {
     const awaitApps = async () => {

@@ -1,6 +1,4 @@
-export const getConfig = () => {
-  const pluginId = kintone.$PLUGIN_ID
-  console.log(pluginId)
+export const getConfig = (pluginId: string) => {
   const config = kintone.plugin.app.getConfig(pluginId)
 
   for (let key in config) {

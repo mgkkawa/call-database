@@ -1,7 +1,7 @@
-import Swal from 'sweetalert2'
-import { getFields, getKintoneRestAPIClient } from '../../kintoneRESTAPI'
+import { getFields, getKintoneRestAPIClient } from '../..'
 import type { KintoneRecord } from '../../../types'
 import { DELETE_TYPES } from '../enviroment'
+import { toastPopup } from '..'
 
 const UPDATE_KEY = 'レコード番号'
 
@@ -64,28 +64,4 @@ export const checkCallHistory = async (record: KintoneRecord, appId: number | st
   const res = await client.record.addRecord({ app: appId, record: fields })
   await toastPopup(res)
   return
-}
-
-const toastPopup = async ({ id, revision }: { id?: string; revision: string }) => {
-  const isAddRecord = Number(revision) > 1
-  if (isAddRecord) {
-    await Swal.fire({
-      title: 'コール履歴更新完了',
-      icon: 'success',
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 2500,
-    })
-    return
-  }
-  await Swal.fire({
-    title: 'コール履歴登録完了',
-    text: 'レコード番号:' + id,
-    icon: 'success',
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 2500,
-  })
 }

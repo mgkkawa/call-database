@@ -1,0 +1,12 @@
+export const DELETE_TYPES = [
+  'CATEGORY',
+  'STATUS',
+  'RECORD_NUMBER',
+  'CREATED_TIME',
+  'CREATOR',
+  'STATUS_ASSIGNEE',
+  'UPDATED_TIME',
+  'MODIFIER',
+  '__ID__',
+  '__REVISION__',
+]

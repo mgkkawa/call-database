@@ -21,6 +21,10 @@ module.exports = {
     fallback: {
       path: false,
     },
+    alias: {
+      '@mui/styled-engine': '@mui/styled-engine-sc',
+      '@/common': path.resolve(__dirname, 'src', 'common'),
+    },
   },
   module: {
     rules: [
@@ -42,6 +46,16 @@ module.exports = {
             '@babel/preset-react',
           ],
         },
+      },
+      {
+        test: /\.css/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: { url: false },
+          },
+        ],
       },
     ],
   },

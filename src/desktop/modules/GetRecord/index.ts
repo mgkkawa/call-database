@@ -1,10 +1,9 @@
-import { getKintoneRestAPIClient } from '../../../common'
+import { getKintoneRestAPIClient, DELETE_KEYS } from '../../../common'
 
 const uniqueId = 'companyId'
-const DELETE_KEYS = ['$id', '$revision', '作成日時', '作成者', '更新日時', '更新者']
-export const getRecord = async (appId: string | number, serialNumber: string) => {
+export const getRecord = async (appId: string | number, companyId: string) => {
   const client = await getKintoneRestAPIClient()
-  const query = uniqueId + ' = "' + serialNumber + '"'
+  const query = uniqueId + ' = "' + companyId + '"'
   const records = await client.record.getRecords({
     app: appId,
     query: query,

@@ -1,10 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { DeleteButton, ListCheckButton } from './components'
-import { checkPhoneNumber, getConfig, getRecord } from './modules'
+import { DeleteButton, ListCheckButton, TestButton } from './components'
+import { checkPhoneNumber, getConfig, getRecord, updateDatabase } from './modules'
 
-const config = getConfig(kintone.$PLUGIN_ID)
-export const { appId, statusField } = config
+export const config = getConfig(kintone.$PLUGIN_ID)
+const statusField = 'CompleteStatus'
+export const { appId } = config
 
 const phoneNumber = 'phoneNumber'
 const nextCall = 'nextPhoneNumber'
@@ -44,6 +45,11 @@ kintone.events.on('app.record.detail.show', async event => {
 
 kintone.events.on('app.record.edit.show', event => {
   event.record.companyId.disabled = true
+
+  // const testButtonSpace = kintone.app.record.getSpaceElement('test-button') as HTMLElement
+  // const root = ReactDOM.createRoot(testButtonSpace)
+  // root.render(<TestButton />)
+
   return event
 })
 
@@ -56,4 +62,5 @@ kintone.events.on('app.record.edit.submit.success', async event => {
   const { record } = event
   const completeStatus = record[statusField].value
   if (completeStatus != '完了') return
+  await updateDatabase(event, config)
 })

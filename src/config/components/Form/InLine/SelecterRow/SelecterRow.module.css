@@ -1,0 +1,8 @@
+.selecterRowWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  margin:4px
+}

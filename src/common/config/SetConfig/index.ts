@@ -7,6 +7,5 @@ export const setConfig = (config: any, callback?: VoidFunction) => {
       continue
     }
   }
-  console.log(newConfig)
-  kintone.plugin.app.setConfig(newConfig, () => {})
+  kintone.plugin.app.setConfig(newConfig, callback)
 }

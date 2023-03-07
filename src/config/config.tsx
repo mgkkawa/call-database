@@ -1,11 +1,11 @@
 import React, { createContext } from 'react'
 import ReactDOM from 'react-dom/client'
+import { getConfig } from '../common'
 import App from './App'
 
 const PLUGIN_ID = kintone.$PLUGIN_ID
-const appId = kintone.app.getId() as number
-export const PluginContext = createContext(PLUGIN_ID)
-export const AppIdContext = createContext(String(appId))
+export const config = getConfig(PLUGIN_ID)
+export const ConfigContext = createContext(config)
 
 const container = document.getElementById('config-root') as HTMLElement
 const root = ReactDOM.createRoot(container)

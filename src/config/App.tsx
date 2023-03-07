@@ -1,8 +1,12 @@
 import React from 'react'
-import { TestForm } from './components/Config/Test'
+import Form from './components/Form'
 
 const App = () => {
-  return <TestForm />
+  return (
+    <React.StrictMode>
+      <Form />
+    </React.StrictMode>
+  )
 }
 
 export default App

@@ -1,4 +1,2 @@
 export * from '../../common'
-export { default as AppsSelect } from './AppsSelect'
-export { default as FieldsSelect } from './FieldsSelect'
-export * from './Config'
+export { default as Form } from './Form'

@@ -1,9 +1,12 @@
-import { TableOptions } from '@tanstack/react-table'
 import React, { useEffect, useState } from 'react'
-import { getAppFields } from '@/common'
+import { getAppFields, getForm, getKintoneRestAPIClient, setConfig } from '@/common'
 import classes from './InLine.module.css'
 import Loading from './Loading'
-import Table from './Table'
+import AppsSelecter from './AppsSelecter'
+import UniqueFieldSelecter from './UniqueFieldSelecter'
+import { TextField } from '@mui/material'
+import { FieldSelecter } from './FieldSelecter'
+import SetFields from './SetFields'
 
 // const columns: ColumnDef<any>[] = [
 //   { header: 'データベースアプリ', accessorKey: 'toCode' },
@@ -11,33 +14,70 @@ import Table from './Table'
 // ]
 
 type InlineProps = {
-  config: PluginConfigProps
-  setFunction: Function
+  configs: {
+    config: PluginConfigProps
+    setFunction: Function
+  }
 }
 
-export default function InLine({ config, setFunction }: InlineProps) {
-  const [toFields, setToFields] = useState<any[]>([])
-  const [thisFields, setThisFields] = useState<any[]>([])
-  const [isReady, setIsReady] = useState(false)
-  const [fields, setFields] = useState<SetFieldProps[]>(config.setFields)
-  console.log(config)
+// tableみたいにしたい。
+// <Selecter /> <Selecter /> <Button /> <Button />
+// で、一つのパッケージにして
+// 行ごとにそれぞれのセレクターの値を保存。管理。
+export default function InLine({ configs }: InlineProps) {
+  const { config, setFunction } = configs
+  const [appId, setAppId] = useState(config.appId || '')
+  const [targetFields, setTargetFields] = useState<any[]>([])
+  const [thisAppFields, setThisAppFields] = useState<any[]>([])
+  const [companyId, setCompanyId] = useState(config.companyId || '')
+  const [fields, setFields] = useState(config.setFields || [{ toCode: '', thisCode: '' }])
+  const [statusField, setStatusField] = useState(config.statusField || '')
 
   useEffect(() => {
-    const setFields = async () => {
-      setToFields(await getAppFields(config.appId))
-      setThisFields(await getAppFields(kintone.app.getId() as number))
-
-      if (config.setFields) {
-      }
-
-      setIsReady(true)
+    const asyncTarget = async () => {
+      setTargetFields(await getAppFields(appId))
+      setThisAppFields(await getAppFields(kintone.app.getId() as number))
+      const newConfig = { ...config }
+      newConfig.appId = appId
+      setFunction(newConfig)
     }
-    setFields()
-  }, [])
+    asyncTarget()
+  }, [appId])
+
+  useEffect(() => {
+    const newConfig = { ...config }
+    newConfig.companyId = companyId
+    newConfig.statusField = statusField
+    setFunction(newConfig)
+  }, [companyId, statusField])
 
   return (
     <div className={classes.wrapper}>
-      {/* <Table data={tableProps} /> */}
+      <AppsSelecter defaultValue={appId} setFunction={setAppId} />
+      <br />
+      {targetFields.length && thisAppFields.length ? (
+        <>
+          <UniqueFieldSelecter
+            defaultValue={companyId}
+            setFunction={setCompanyId}
+            fields={targetFields.filter(field => field.unique)}
+          />
+          <br />
+          <FieldSelecter
+            label='完了ステータスフィールド選択'
+            type='DROP_DOWN'
+            fields={thisAppFields}
+            setFunction={setStatusField}
+            defaultValue={statusField}
+          />
+          <br />
+          <SetFields setFields={fields} toFields={targetFields} thisFields={thisAppFields} />
+        </>
+      ) : (
+        <></>
+      )}
+      <br />
+      <hr />
       <Loading />
     </div>
   )

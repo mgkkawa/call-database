@@ -1,10 +1,10 @@
 import React from 'react'
 import Form from './components/Form'
 
-const App = () => {
+const App = ({ config }: { config: PluginConfigProps }) => {
   return (
     <React.StrictMode>
-      <Form />
+      <Form config={config} />
     </React.StrictMode>
   )
 }

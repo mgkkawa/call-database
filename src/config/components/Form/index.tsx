@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { setConfig } from '..'
 import { ConfigContext } from '../../config'
 import Footer from './Footer'
@@ -10,18 +10,21 @@ const headerProps: HeaderProps = {
   description: 'コールデータベースのあれやこれや',
 }
 
-export default function Form() {
-  const [config, setThisConfig] = useState(useContext(ConfigContext))
+export default function Form({ config }: { config: PluginConfigProps }) {
+  const [thisConfig, setThisConfig] = useState(useContext(ConfigContext))
+  const setHandler = useCallback((config: PluginConfigProps) => {
+    setThisConfig(config)
+  }, [])
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault()
-    setConfig(config)
+    setConfig(thisConfig)
   }
 
   return (
     <form onSubmit={submitHandler}>
       <Header {...headerProps} />
-      <InLine config={config} setFunction={setThisConfig} />
+      <InLine configs={{ config: config, setFunction: setHandler }} />
       <Footer />
     </form>
   )

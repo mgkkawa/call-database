@@ -9,4 +9,4 @@ export const ConfigContext = createContext(config)
 
 const container = document.getElementById('config-root') as HTMLElement
 const root = ReactDOM.createRoot(container)
-root.render(<App />)
+root.render(<App config={config} />)

@@ -1,16 +1,17 @@
-import { FormControl, Select, MenuItem } from '@mui/material'
+import { FormControl, Select, MenuItem, InputLabel } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import classes from './FieldSelecter.module.css'
+import classes from '../InLine.module.css'
 
 type Field = { label: string; code: string; type: string }
 type FieldSelecterProps = {
   fields: Field[]
-  value?: string
+  defaultValue?: string
   type?: string
   setFunction: Function
+  label?: string
 }
 
-export const FieldSelecter = ({ fields, value, type, setFunction }: FieldSelecterProps) => {
+export const FieldSelecter = ({ fields, defaultValue, type, setFunction, label }: FieldSelecterProps) => {
   const [selects, setSelects] = useState(fields)
   useEffect(() => {
     if (type) {
@@ -18,10 +19,10 @@ export const FieldSelecter = ({ fields, value, type, setFunction }: FieldSelecte
     }
   }, [])
   return (
-    <FormControl>
+    <FormControl className={classes.selecter}>
+      <InputLabel>{label ? label : ''}</InputLabel>
       <Select
-        className={classes.fieldSelecter}
-        defaultValue={value}
+        defaultValue={defaultValue}
         onChange={e => {
           setFunction(e.target.value)
         }}>

@@ -2,7 +2,6 @@
 declare type PluginConfigProps = {
   appId: string
   statusField: string
-  companyId: string
   setFields: SetFieldProps[]
 }
 

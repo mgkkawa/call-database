@@ -4,8 +4,8 @@ import { DeleteButton, ListCheckButton, TestButton } from './components'
 import { checkPhoneNumber, getConfig, getRecord, updateDatabase } from './modules'
 
 export const config = getConfig(kintone.$PLUGIN_ID)
-const statusField = 'CompleteStatus'
-export const { appId } = config
+// const statusField = 'CompleteStatus'
+export const { appId, statusField } = config
 
 const phoneNumber = 'phoneNumber'
 const nextCall = 'nextPhoneNumber'
